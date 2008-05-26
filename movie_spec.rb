@@ -21,8 +21,7 @@ end
 describe ImdbMovie, " after a Imdb.find_by_id returns it" do 
   before(:each) do
     @movie = Imdb.find_movie_by_id('tt0382932')
-  end
-  
+  end  
   
   it "should have an imdb_id" do
     @movie.imdb_id.should eql('tt0382932')
