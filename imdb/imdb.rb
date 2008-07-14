@@ -76,6 +76,10 @@ class Imdb
         #it's not found
         return false
       end
+    else
+      id = result.base_uri.to_s.gsub(/.*\/(tt\d+)(\/.*?)?/) { |m| m[0] }
+      find_movie_by_id(id)
+    end
   end
 
   protected
