@@ -4,7 +4,7 @@ class Imdb
   IMDB_NAME_BASE_URL = "http://www.imdb.com/name/"
   IMDB_COMPANY_BASE_URL = "http://www.imdb.com/company/"
   IMDB_GENRE_BASE_URL = "http://www.imdb.com/Sections/Genres/"
-  IMDB_SEARCH_BASE_URL = "http://imdb.com/find?s=tt&q="
+  IMDB_SEARCH_BASE_URL = "http://www.imdb.com/find?s=tt&q="
 
   def self.find_movie_by_id(id)
   
