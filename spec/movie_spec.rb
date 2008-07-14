@@ -32,7 +32,7 @@ describe ImdbMovie, " after a Imdb.find_by_id returns it" do
   end
 
   it "should have a release date" do
-    @movie.release_date.to_s.should eql(Date.new(2007, 9, 6).to_s)
+    @movie.release_date.strftime('%b %d, %Y').should eql(Date.new(2007,9,6).strftime('%b %d, %Y'))
   end
 
   it "should have a company" do
@@ -132,7 +132,6 @@ describe ImdbMovie, " after a Imdb.find_by_name returns it" do
   end
 
   it "should have a release date" do
-    puts @movie.release_date
-    @movie.release_date.should eql(Date.new(2004, 12, 2))
+    @movie.release_date.strftime('%b %d, %Y').should eql(Date.new(2004, 12, 2).strftime('%b %d, %Y'))
   end
 end
