@@ -5,6 +5,8 @@ USAGE:
 require 'Imdb'
 
 movie = Imdb.find_movie_by_id('tt0382932')
+# or
+movie = Imdb.find_movie_by_name('Ratatouille')
 
 puts "IMDB ID: #{movie.imdb_id}"
 puts "Title: #{movie.title}"
