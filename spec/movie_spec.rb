@@ -5,7 +5,7 @@ describe Imdb do
     Imdb::IMDB_MOVIE_BASE_URL.should eql("http://www.imdb.com/title/")
   end
   it "should have an imdb search base url" do
-    Imdb::IMDB_SEARCH_BASE_URL.should eql("http://imdb.com/find?s=all&q=")
+    Imdb::IMDB_SEARCH_BASE_URL.should eql("http://www.imdb.com/find?s=tt&q=")
   end
 end
 
@@ -32,7 +32,7 @@ describe ImdbMovie, " after a Imdb.find_by_id returns it" do
   end
 
   it "should have a release date" do
-    @movie.release_date.should eql(Date.new(2007, 06, 29))
+    @movie.release_date.to_s.should eql(Date.new(2007, 9, 6).to_s)
   end
 
   it "should have a company" do
@@ -63,11 +63,11 @@ describe ImdbMovie, " after a Imdb.find_by_id returns it" do
   end
 
   it "should have five genres" do
-    @movie.genres.length.should == 5
+    @movie.genres.length.should == 4
   end
   
   it "should have specific genres" do
-    @movie.genres.map{|g| g.name}.should include('Animation', 'Adventure', 'Comedy', 'Family', 'Fantasy')
+    @movie.genres.map{|g| g.name}.should include('Animation', 'Comedy', 'Family', 'Fantasy')
   end
 
   it "should have a tagline" do
@@ -107,3 +107,32 @@ describe ImdbMovie, " after a Imdb.find_by_id returns it" do
 
 end
 
+
+
+describe ImdbMovie, " when first created" do
+
+  it "should not have an imdb_id" do
+    movie = ImdbMovie.new
+    movie.imdb_id.should be_nil
+  end
+
+end
+
+describe ImdbMovie, " after a Imdb.find_by_name returns it" do 
+  before(:each) do
+    @movie = Imdb.find_movie_by_name('Saw')
+  end
+  
+  it "should have an imdb_id" do
+    @movie.imdb_id.should eql('tt0387564')
+  end
+
+  it "should have a title" do
+    @movie.title.should eql('Saw')
+  end
+
+  it "should have a release date" do
+    puts @movie.release_date
+    @movie.release_date.should eql(Date.new(2004, 12, 2))
+  end
+end
