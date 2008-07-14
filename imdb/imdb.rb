@@ -65,14 +65,17 @@ class Imdb
     #     <a href="/title/tt0371746/">Iron Man</a>
     
     uri = URI(IMDB_SEARCH_BASE_URL + CGI.escape(name))
-    
     result = uri.open
+    
     if result.base_uri == uri
-      # search results
-    else
-      id = results.base_uri.to_s.gsub(/.*\/(tt\d+)(\/.*?)?/) { |m| m[0] }
-      find_movie_by_id(id)
-    end
+      contents = result.read.to_s
+      id = contents.scan(/\/title\/(tt\d+)/)
+      if id
+        find_movie_by_id( id[0].to_s )
+      else
+        #it's not found
+        return false
+      end
   end
 
   protected
