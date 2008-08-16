@@ -7,7 +7,6 @@ class Imdb
   IMDB_SEARCH_BASE_URL = "http://www.imdb.com/find?s=tt&q="
 
   def self.find_movie_by_id(id)
-  
     data = Hpricot(open(IMDB_MOVIE_BASE_URL + id))
   
     movie = ImdbMovie.new
@@ -73,13 +72,14 @@ class Imdb
       if id
         find_movie_by_id( id[0].to_s )
       else
-        #it's not found
-        return false
+        raise "Movie Not Found"
       end
     else
       id = result.base_uri.to_s.gsub(/.*\/(tt\d+)(\/.*?)?/) { |m| m[0] }
       find_movie_by_id(id)
     end
+  rescue
+    nil
   end
 
   protected
