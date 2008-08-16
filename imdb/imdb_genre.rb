@@ -1,4 +1,4 @@
-class ImdbGenre
+class Imdb::Genre
   attr_accessor :imdb_id, :name
   
   def initialize(imdb_id, name)

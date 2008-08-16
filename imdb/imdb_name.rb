@@ -1,4 +1,4 @@
-class ImdbName
+class Imdb::Name
   attr_accessor :imdb_id, :name, :role
   
   def initialize(imdb_id, name, role)
