@@ -63,26 +63,23 @@ class Imdb
       # Two cases....
       # One: takes user directly to movie page, in which case get id and call find_movie_by_id
       #     e.g. "Grindhouse planet terror"
-      # Two: results page. scrape for:
-      #     <a href="/title/tt0371746/">Iron Man</a>
+      # Two: results page. Ignore for now (this needs to be very intelligent)
 
       uri = URI(IMDB_SEARCH_BASE_URL + CGI.escape(name))
       result = uri.open
 
+      
       if result.base_uri == uri
         contents = result.read.to_s
-        id = contents.scan(/\/title\/(tt\d+)/)
-        if id
+        if id = contents.scan(/\(Exact Matches\).*?\/title\/(tt\d+)/)
           find_movie_by_id( id[0].to_s )
         else
-          raise "Movie Not Found"
+          nil
         end
-      else
+      else # We've been redirected straight to movie page
         id = result.base_uri.to_s.gsub(/.*\/(tt\d+)(\/.*?)?/) { |m| m[0] }
         find_movie_by_id(id)
       end
-    rescue
-      nil
     end
 
     protected
