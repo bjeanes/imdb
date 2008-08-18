@@ -6,56 +6,55 @@ class Imdb
   IMDB_SEARCH_BASE_URL = "http://www.imdb.com/find?s=tt&q="
 
   class << self
+    @@movies = {}
+    
     private :new
 
     def find_movie_by_id(id)
-      data = Hpricot(open(IMDB_MOVIE_BASE_URL + id))
+      @@movies[id.to_sym] ||= begin
+        data = Hpricot(open(IMDB_MOVIE_BASE_URL + id))
 
-      movie = Imdb::Movie.new
+        movie = Imdb::Movie.new
 
-      movie.imdb_id = id
-      movie.title = data.at("meta[@name='title']")['content'].gsub(/\(\d\d\d\d\)/,'').strip
+        movie.imdb_id = id
+        movie.title = data.at("meta[@name='title']")['content'].gsub(/\(\d\d\d\d\)/,'').strip
 
-      rating_text = (data/"div.rating/b").inner_text
-      if rating_text =~ /([\d\.]+)\/10/
-        movie.rating = $1
-      end
-
-      begin
-        movie.poster_url = data.at("div.photo/a[@name='poster']/img")['src']
-      rescue
-        movie.poster_url = nil
-      end
-
-      (data/"div.info").each do |info|
-        case (info/"h5").inner_text
-        when /Directors?:/
-          movie.directors = parse_names(info)
-        when /Writers?:/
-          movie.writers = parse_names(info)
-        when /Company:/
-          movie.company = parse_company(info)
-        when "Tagline:"
-          movie.tagline = parse_info(info).strip
-        when "Runtime:"
-          movie.runtime = parse_info(info).strip
-        when "Plot:"
-          movie.plot = parse_info(info).gsub(/full summary.*$/,'').strip
-        when "Genre:"
-          movie.genres = parse_genres(info)
-        when "Release Date:"
-          begin
-            if (parse_info(info).strip =~ /(\d{1,2}) ([a-zA-Z]+) (\d{4})/)
-              movie.release_date = Date.parse("#{$2} #{$1}, #{$3}")
-            end
-          rescue
-            movie.release_date = nil
-          end
+        rating_text = (data/"div.rating/b").inner_text
+        if rating_text =~ /([\d\.]+)\/10/
+          movie.rating = $1
         end
-      end 
 
-      movie # return movie
+        movie.poster_url = data.at("div.photo/a[@name='poster']/img")['src'] rescue nil
 
+        (data/"div.info").each do |info|
+          case (info/"h5").inner_text
+          when /Directors?:/
+            movie.directors = parse_names(info)
+          when /Writers?:/
+            movie.writers = parse_names(info)
+          when /Company:/
+            movie.company = parse_company(info)
+          when "Tagline:"
+            movie.tagline = parse_info(info).strip
+          when "Runtime:"
+            movie.runtime = parse_info(info).strip
+          when "Plot:"
+            movie.plot = parse_info(info).gsub(/full summary.*$/,'').strip
+          when "Genre:"
+            movie.genres = parse_genres(info)
+          when "Release Date:"
+            begin
+              if (parse_info(info).strip =~ /(\d{1,2}) ([a-zA-Z]+) (\d{4})/)
+                movie.release_date = Date.parse("#{$2} #{$1}, #{$3}")
+              end
+            rescue
+              movie.release_date = nil
+            end
+          end
+        end 
+
+        movie # return movie
+      end
     end
 
     def find_movie_by_name(name)
