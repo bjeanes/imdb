@@ -8,6 +8,10 @@ describe Imdb do
   it "should have an imdb search base url" do
     Imdb::IMDB_SEARCH_BASE_URL.should eql("http://www.imdb.com/find?s=tt&q=")
   end
+  
+  it "should respond with nil when find_movie_by_id is passed an invalid id" do
+    Imdb.find_movie_by_id('tt9382347').should be_nil
+  end
 end
 
 describe Imdb::Movie, " when first created" do
@@ -19,7 +23,7 @@ describe Imdb::Movie, " when first created" do
 
 end
 
-describe Imdb::Movie, " after a Imdb.find_by_id returns it" do 
+describe Imdb::Movie, " after a Imdb.find_movie_by_id returns it" do 
   before(:each) do
     @movie = Imdb.find_movie_by_id('tt0382932')
   end

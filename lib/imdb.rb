@@ -54,6 +54,8 @@ class Imdb
         end 
 
         movie # return movie
+      rescue
+        nil
       end
     end
 
