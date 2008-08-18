@@ -22,7 +22,7 @@ end
 describe Imdb::Movie, " after a Imdb.find_by_id returns it" do 
   before(:each) do
     @movie = Imdb.find_movie_by_id('tt0382932')
-  end  
+  end
   
   it "should have an imdb_id" do
     @movie.imdb_id.should eql('tt0382932')
@@ -106,33 +106,4 @@ describe Imdb::Movie, " after a Imdb.find_by_id returns it" do
     @movie.genres.should == []
   end
 
-end
-
-
-
-describe Imdb::Movie, " when first created" do
-
-  it "should not have an imdb_id" do
-    movie = Imdb::Movie.new
-    movie.imdb_id.should be_nil
-  end
-
-end
-
-describe Imdb::Movie, " after a Imdb.find_by_name returns it" do 
-  before(:each) do
-    @movie = Imdb.find_movie_by_name('Saw')
-  end
-  
-  it "should have an imdb_id" do
-    @movie.imdb_id.should eql('tt0387564')
-  end
-
-  it "should have a title" do
-    @movie.title.should eql('Saw')
-  end
-
-  it "should have a release date" do
-    @movie.release_date.strftime('%b %d, %Y').should eql(Date.new(2004, 12, 2).strftime('%b %d, %Y'))
-  end
 end
