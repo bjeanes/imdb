@@ -5,6 +5,7 @@ describe Imdb do
   it "should have an imdb movie base url" do
     Imdb::IMDB_MOVIE_BASE_URL.should eql("http://www.imdb.com/title/")
   end
+  
   it "should have an imdb search base url" do
     Imdb::IMDB_SEARCH_BASE_URL.should eql("http://www.imdb.com/find?s=tt&q=")
   end
@@ -12,15 +13,21 @@ describe Imdb do
   it "should respond with nil when find_movie_by_id is passed an invalid id" do
     Imdb.find_movie_by_id('tt9382347').should be_nil
   end
+  
+  it "should return an Imdb::Movie object when find_movie_by_name is called" do
+    Imdb.find_movie_by_name('Ratatouille').imdb_id.should eql('tt0382932') 
+  end
+  
+  it "should return nil when find_movie_by_name is called with non-existant movie" do
+    Imdb.find_movie_by_name('FooBar Movie Zombie Richard Criss Cross').should be_nil
+  end
 end
 
 describe Imdb::Movie, " when first created" do
-
   it "should not have an imdb_id" do
     movie = Imdb::Movie.new
     movie.imdb_id.should be_nil
   end
-
 end
 
 describe Imdb::Movie, " after a Imdb.find_movie_by_id returns it" do 
