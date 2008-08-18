@@ -1,4 +1,5 @@
 require 'imdb'
+require 'spec'
 
 describe Imdb do
   it "should have an imdb movie base url" do
