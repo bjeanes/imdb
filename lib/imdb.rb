@@ -5,9 +5,9 @@ class Imdb
   IMDB_GENRE_BASE_URL = "http://www.imdb.com/Sections/Genres/"
   IMDB_SEARCH_BASE_URL = "http://www.imdb.com/find?s=tt&q="
 
-  private :new
-
   class << self
+    private :new
+
     def find_movie_by_id(id)
       data = Hpricot(open(IMDB_MOVIE_BASE_URL + id))
 
